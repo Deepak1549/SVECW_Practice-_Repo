@@ -1,8 +1,14 @@
-
 pipeline {
     agent any
 
     stages {
+
+        stage('Clone Repository') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/YOUR_USERNAME/registration-cicd.git'
+            }
+        }
 
         stage('Validate HTML') {
             steps {
@@ -37,10 +43,11 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline completed! Registration page is live.'
+            echo 'Pipeline completed successfully! Registration page is live.'
         }
         failure {
             echo 'Pipeline failed. Check the logs above.'
         }
     }
 }
+

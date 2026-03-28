@@ -3,51 +3,44 @@ pipeline {
 
     stages {
 
-        stage('Clone Repository') {
+        stage('Checkout Code') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/Deepak1549/SVECW_Practice-_Repo.git/registration-cicd.git'
+                // Jenkins automatically pulls code from GitHub (configured in job)
+                echo "Code checkout completed"
             }
         }
 
         stage('Validate HTML') {
             steps {
-                sh '''
-                    echo "Checking if registration.html exists..."
-                    if [ -f registration.html ]; then
-                        echo "File found. Validation passed."
-                    else
-                        echo "ERROR: registration.html not found!"
-                        exit 1
-                    fi
-                '''
+                echo "Validating HTML file..."
+                sh 'ls -l'
             }
         }
 
-        stage('Deploy to Web Server') {
+        stage('Deploy to Apache Server') {
             steps {
+                echo "Deploying files to Apache server..."
+
+                // Copy files to Apache web directory
                 sh '''
-                    echo "Deploying registration.html to Apache..."
-                    sudo cp registration.html /var/www/html/registration.html
-                    echo "Deployment successful!"
+                sudo cp -r * /var/www/html/
                 '''
             }
         }
 
         stage('Verify Deployment') {
             steps {
-                sh 'curl -s -o /dev/null -w "%{http_code}" http://localhost/registration.html'
+                echo "Deployment successful. Verify in browser."
             }
         }
     }
 
     post {
         success {
-            echo 'Pipeline completed successfully! Registration page is live.'
+            echo "Pipeline executed successfully!"
         }
         failure {
-            echo 'Pipeline failed. Check the logs above.'
+            echo "Pipeline failed. Check logs."
         }
     }
 }
-

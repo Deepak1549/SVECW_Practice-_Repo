@@ -6,7 +6,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/https://github.com/Deepak1549/SVECW_Practice-_Repo.git/registration-cicd.git'
+                    url: 'https://github.com/Deepak1549/SVECW_Practice-_Repo.git/registration-cicd.git'
             }
         }
 
